@@ -1,0 +1,493 @@
+@import "tailwindcss";
+
+@theme {
+  /* Base Surfaces & Neutrals from theme.css + UniPiloto */
+  --color-obsidian-canvas: #0a0a0a;
+  --color-true-black: #000000;
+  --color-charcoal-surface: #171717;
+  --color-graphite-edge: #262626;
+  --color-steel-border: #464646;
+  --color-cloud-white: #fafafa;
+  --color-paper-white: #e5e5e5;
+  --color-fog: #a1a1a1;
+  --color-ash: #737373;
+
+  /* Colores Establecidos de la App (Universidad Piloto de Colombia) */
+  --color-unipiloto-red: #c60000;
+  --color-unipiloto-red-hover: #930000;
+  --color-primary-dark: #313233;
+  --color-surface-charcoal: #1c1c1c;
+  --color-surface-slate: #494949;
+  --color-highlight-light: #efefef;
+
+  /* Pasteles Oficiales Establecidos */
+  --color-pastel-blue: #edf7ff;
+  --color-pastel-lavender: #eae8ff;
+  --color-pastel-rose: #f7cfcf;
+  --color-pastel-amber: #fff5dd;
+  --color-pastel-blush: #ffe5e5;
+  --color-pastel-mint: #ccfff3;
+  --color-pastel-coral: #ffc9c9;
+  --color-pastel-lilac: #f4dcf7;
+
+  /* Typography */
+  --font-matterfont: 'DM Sans', 'Geist', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-dm-sans: 'DM Sans', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-geist: 'Geist', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+
+  /* Typography — Scale (from theme.css) */
+  --text-micro-nav: 10px;
+  --leading-micro-nav: 2;
+  --tracking-micro-nav: 0px;
+  --text-caption: 12px;
+  --leading-caption: 1.33;
+  --tracking-caption: 0px;
+  --text-nav-control: 14px;
+  --leading-nav-control: 1.43;
+  --tracking-nav-control: 0px;
+  --text-body: 16px;
+  --leading-body: 1.25;
+  --tracking-body: 0px;
+  --text-body-relaxed: 16px;
+  --leading-body-relaxed: 1.5;
+  --tracking-body-relaxed: 0px;
+  --text-body-large: 18px;
+  --leading-body-large: 1.25;
+  --tracking-body-large: 0px;
+  --text-subheading: 20px;
+  --leading-subheading: 1.4;
+  --tracking-subheading: 0px;
+  --text-feature-heading: 24px;
+  --leading-feature-heading: 1.17;
+  --tracking-feature-heading: 0px;
+  --text-section-heading: 36px;
+  --leading-section-heading: 1.11;
+  --tracking-section-heading: 0px;
+  --text-display: 60px;
+  --leading-display: 1;
+  --tracking-display: -1.5px;
+
+  /* Referencia de Espaciado (sin sobrescribir la escala numerica de Tailwind) */
+  --space-ref-8: 8px;
+  --space-ref-16: 16px;
+  --space-ref-24: 24px;
+  --space-ref-32: 32px;
+  --space-ref-48: 48px;
+  --space-ref-56: 56px;
+  --space-ref-64: 64px;
+  --space-ref-72: 72px;
+  --space-ref-128: 128px;
+  --space-ref-224: 224px;
+
+  /* Border Radius (from theme.css) */
+  --radius-md: 4px;
+  --radius-lg: 10px;
+  --radius-2xl: 16px;
+  --radius-2xl-2: 20px;
+  --radius-3xl: 24px;
+  --radius-3xl-2: 27px;
+  --radius-full: 300px;
+  --radius-full-2: 9999px;
+
+  /* Shadows (from theme.css) */
+  --shadow-sm: rgba(0, 0, 0, 0.25) 0px 4px 4px 0px;
+  --shadow-subtle: rgba(101, 129, 128, 0.15) 0px 0px 2px 2px inset, rgba(32, 47, 46, 0.15) 0px 0px 4px 4px inset;
+  --shadow-subtle-2: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.1) 0px 1px 2px -1px;
+  --shadow-md: rgba(0, 0, 0, 0.3) 0px 8px 10px 0px;
+  --shadow-subtle-3: rgb(255, 255, 255) 0px 1px 0px 0px inset, rgba(0, 0, 0, 0.1) 0px -2px 6px 0px inset;
+  --shadow-sm-2: rgb(0, 0, 0) 0px 0px 8px 8px;
+  --shadow-sm-3: rgba(0, 0, 0, 0.5) 0px 0px 8px 8px;
+  --shadow-sm-4: oklab(0.268999 -0.00000260025 0.00000627339) 0px 2px 4px 0px inset;
+  --shadow-md-2: lab(15.204 0 -0.00000596046) 0px 0px 12px 0px inset;
+}
+
+:root {
+  color-scheme: dark;
+  accent-color: #c60000;
+  scrollbar-color: #3a3a3c #0a0a0a;
+  --unipiloto-red: #c60000;
+  --unipiloto-red-hover: #930000;
+  --primary-dark: #313233;
+  --primary-light: #ffffff;
+  --secondary-dark: #000000;
+  --highlight-dark: #666666;
+  --highlight-light: #efefef;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  -webkit-tap-highlight-color: transparent;
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
+  padding-bottom: env(safe-area-inset-bottom);
+  background-color: var(--color-obsidian-canvas);
+  background-image:
+    radial-gradient(ellipse 80% 45% at 50% 0%, rgba(198, 0, 0, 0.14) 0%, transparent 65%),
+    radial-gradient(rgba(255, 255, 255, 0.028) 1px, transparent 1px);
+  background-size: 100% 100%, 26px 26px;
+  color: var(--color-cloud-white);
+  font-family: var(--font-matterfont);
+  font-size: var(--text-body);
+  line-height: var(--leading-body-relaxed);
+  margin: 0;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background-color: #c60000;
+  color: #ffffff;
+}
+
+/*
+ * Componentes en @layer components: permite ajustar utilidades por breakpoint.
+ */
+@layer components {
+/* Panel principal arquitectónico con brillo superior sutil */
+.elegant-panel {
+  background: linear-gradient(180deg, rgba(26, 26, 28, 0.92) 0%, rgba(15, 15, 16, 0.96) 100%);
+  backdrop-filter: blur(18px);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: var(--radius-3xl);
+  box-shadow:
+    rgba(255, 255, 255, 0.07) 0px 1px 0px 0px inset,
+    0 20px 44px -16px rgba(0, 0, 0, 0.72);
+}
+
+/* Módulos diferenciados para cada etapa del formulario */
+.stage-card {
+  min-width: 0;
+  width: 100%;
+  background: linear-gradient(180deg, rgba(24, 24, 26, 0.95) 0%, rgba(14, 14, 15, 0.98) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.085);
+  border-radius: var(--radius-2xl-2);
+  box-shadow:
+    rgba(255, 255, 255, 0.06) 0px 1px 0px 0px inset,
+    0 12px 28px -12px rgba(0, 0, 0, 0.65);
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.stage-card:focus-within {
+  border-color: rgba(255, 255, 255, 0.17);
+}
+
+/* Tarjeta interactiva minimalista */
+.elegant-card {
+  background: linear-gradient(180deg, #19191b 0%, #121213 100%);
+  border: 1px solid rgba(255, 255, 255, 0.085);
+  border-radius: var(--radius-2xl-2);
+  box-shadow:
+    rgba(255, 255, 255, 0.055) 0px 1px 0px 0px inset,
+    var(--shadow-sm);
+  transition: border-color 0.25s ease, transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease;
+}
+
+.elegant-card:hover {
+  border-color: rgba(255, 255, 255, 0.16);
+}
+
+/* Clases de compatibilidad */
+.matter-shell {
+  background: linear-gradient(180deg, rgba(26, 26, 28, 0.92) 0%, rgba(16, 16, 17, 0.96) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: var(--radius-3xl);
+  box-shadow:
+    rgba(255, 255, 255, 0.06) 0px 1px 0px 0px inset,
+    0 16px 36px -12px rgba(0, 0, 0, 0.6);
+}
+
+.matter-well {
+  background-color: rgba(10, 10, 10, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: var(--radius-2xl-2);
+}
+
+/* Superficie Pastel o Blanca con bisel sutil (--shadow-subtle-3 de theme.css) */
+.matter-bevel {
+  box-shadow: var(--shadow-subtle-3), 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Input refinado y minimalista */
+.matter-input {
+  background-color: rgba(12, 12, 13, 0.92);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: var(--radius-2xl);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.35);
+  color: var(--color-cloud-white);
+  transition: border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.matter-input:hover {
+  border-color: rgba(255, 255, 255, 0.24);
+  background-color: #141416;
+}
+
+.matter-input:focus {
+  border-color: var(--color-unipiloto-red);
+  background-color: #161618;
+  box-shadow:
+    inset 0 1px 2px rgba(0, 0, 0, 0.25),
+    0 0 0 3px rgba(198, 0, 0, 0.2);
+  outline: none;
+}
+
+/* Estilo del grupo padre con :has(:user-invalid) */
+.field-group:has(:user-invalid) .field-label {
+  color: #ffc9c9;
+}
+
+/* Fila de selección accesible basada en radio oculto + :has() */
+.choice-row {
+  position: relative;
+  transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease;
+}
+
+.choice-row:has(:focus-visible) {
+  outline: 2px solid #c60000;
+  outline-offset: 2px;
+}
+
+/* Botón Primario Institucional UniPiloto (#c60000 -> #930000) */
+.btn-unipiloto-red {
+  background: linear-gradient(180deg, #da0000 0%, #c60000 58%, #980000 100%);
+  color: #ffffff;
+  border-radius: var(--radius-full);
+  border: 1px solid rgba(255, 201, 201, 0.55);
+  box-shadow:
+    rgba(255, 255, 255, 0.3) 0px 1px 0px 0px inset,
+    rgba(198, 0, 0, 0.36) 0px 8px 24px -4px;
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.btn-unipiloto-red:hover {
+  background: linear-gradient(180deg, #bd0000 0%, #930000 100%);
+  border-color: #ffc9c9;
+  box-shadow:
+    rgba(255, 255, 255, 0.38) 0px 1px 0px 0px inset,
+    rgba(198, 0, 0, 0.52) 0px 12px 28px -4px;
+  transform: translateY(-1px);
+}
+
+.btn-unipiloto-red:active {
+  transform: translateY(0) scale(0.99);
+}
+
+/* Botón Secundario Oscuro Elegante */
+.btn-matter-dark {
+  background: linear-gradient(180deg, #1e1e20 0%, #141416 100%);
+  color: var(--color-cloud-white);
+  border: 1px solid rgba(255, 255, 255, 0.13);
+  border-radius: var(--radius-full);
+  box-shadow:
+    rgba(255, 255, 255, 0.065) 0px 1px 0px 0px inset,
+    var(--shadow-sm);
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.btn-matter-dark:hover {
+  background: linear-gradient(180deg, #27272a 0%, #1a1a1c 100%);
+  border-color: rgba(255, 255, 255, 0.28);
+  transform: translateY(-1px);
+}
+
+.btn-matter-dark:active {
+  transform: translateY(0) scale(0.99);
+}
+
+/* Línea divisoria luminosa con el Rojo Institucional #c60000 */
+.dusk-violet-strip {
+  background: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 0) 0%,
+    rgba(255, 255, 255, 0.08) 20%,
+    rgba(198, 0, 0, 0.75) 50%,
+    rgba(255, 255, 255, 0.08) 80%,
+    rgba(0, 0, 0, 0) 100%
+  );
+  height: 1px;
+  width: 100%;
+}
+
+/* Tipografía de micro-navegación de theme.css */
+.micro-label {
+  font-size: var(--text-micro-nav);
+  line-height: var(--leading-micro-nav);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+/* Validación pos-interacción */
+.dimension-input:user-invalid,
+.dimension-input.user-invalid-fallback {
+  border-color: #ffc9c9 !important;
+  background-color: rgba(198, 0, 0, 0.1);
+}
+
+.dimension-input:user-valid,
+.dimension-input.user-valid-fallback {
+  border-color: rgba(204, 255, 243, 0.45);
+}
+
+/* Textarea con auto-ajuste limpio */
+.auto-textarea {
+  resize: vertical;
+  field-sizing: content;
+  min-height: 88px;
+  max-height: 240px;
+}
+
+/* Título de página con tipografía fluida (escala suave entre móvil y escritorio) */
+.page-title {
+  font-size: clamp(1.5rem, 1.1rem + 1.8vw, 2.15rem);
+  line-height: 1.12;
+  letter-spacing: -0.025em;
+}
+
+/* Fila horizontal deslizable sin barra visible (filtros en móvil) */
+.scroll-row {
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+.scroll-row::-webkit-scrollbar {
+  display: none;
+}
+
+/* Select personalizado de marca (solo escritorio para mantener el selector nativo móvil) */
+@media (hover: hover) and (pointer: fine) {
+  @supports (appearance: base-select) {
+    .branded-select,
+    .branded-select::picker(select) {
+      appearance: base-select;
+    }
+
+    .branded-select {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+    }
+
+    .branded-select::picker-icon {
+      color: #a1a1a1;
+      transition: transform 0.2s ease, color 0.2s ease;
+    }
+
+    .branded-select:open::picker-icon {
+      transform: rotate(180deg);
+      color: #ffc9c9;
+    }
+
+    .branded-select::picker(select) {
+      background-color: #141416;
+      color: #fafafa;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 14px;
+      padding: 6px;
+      margin-top: 6px;
+      box-shadow: 0 20px 44px -10px rgba(0, 0, 0, 0.85);
+    }
+
+    .branded-select option {
+      padding: 8px 12px;
+      border-radius: 10px;
+      font-size: 14px;
+      color: #e5e5e5;
+      cursor: pointer;
+      transition: background-color 0.15s ease, color 0.15s ease;
+    }
+
+    .branded-select option:hover,
+    .branded-select option:focus {
+      background-color: rgba(255, 255, 255, 0.08);
+      color: #ffffff;
+    }
+
+    .branded-select option:checked {
+      background-color: rgba(198, 0, 0, 0.2);
+      color: #ffffff;
+      font-weight: 500;
+    }
+
+    .branded-select option::checkmark {
+      color: #ffc9c9;
+    }
+  }
+}
+
+/* Paneles más ligeros y menos redondeados en pantallas pequeñas */
+@media (max-width: 639px) {
+  .elegant-panel,
+  .matter-shell {
+    border-radius: var(--radius-2xl-2);
+    backdrop-filter: none;
+    box-shadow:
+      rgba(255, 255, 255, 0.06) 0px 1px 0px 0px inset,
+      0 10px 24px -12px rgba(0, 0, 0, 0.6);
+  }
+
+  .stage-card,
+  .elegant-card {
+    border-radius: var(--radius-2xl);
+  }
+}
+
+/* Dispositivos táctiles: sin desplazamiento "pegado" tras tocar un botón */
+@media (hover: none) {
+  .btn-unipiloto-red:hover,
+  .btn-matter-dark:hover {
+    transform: none;
+  }
+}
+}
+
+button,
+a,
+select,
+label {
+  touch-action: manipulation;
+}
+
+/* ============ Ajustes para Celulares ============ */
+@media (max-width: 639px) {
+  /* Evita el zoom automático de iOS al enfocar campos (requiere >= 16px) */
+  input,
+  select,
+  textarea {
+    font-size: 16px;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-fadeIn {
+    animation: none;
+  }
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}
