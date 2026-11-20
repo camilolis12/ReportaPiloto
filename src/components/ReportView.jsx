@@ -7,6 +7,7 @@ import {
   Trash2,
   MapPin,
   Camera,
+  Image as ImageIcon,
   Check,
   AlertCircle,
   Sparkles,
@@ -67,7 +68,8 @@ const PRIORITY_SEGMENT_THEME = {
 };
 
 export default function ReportView({ onBack, onSubmitReport, session }) {
-  const photoInputRef = useRef(null);
+  const cameraInputRef = useRef(null);
+  const galleryInputRef = useRef(null);
 
   const [categoryId, setCategoryId] = useState(INCIDENT_CATEGORIES[0].id);
   const [zone, setZone] = useState(CAMPUS_ZONES[0]);
@@ -92,13 +94,39 @@ export default function ReportView({ onBack, onSubmitReport, session }) {
   };
 
   const handlePhotoSelect = (e) => {
-    const file = e.target.files?.[0];
+    const inputEl = e.target;
+    const file = inputEl.files?.[0];
+    inputEl.value = '';
     if (!file) return;
+
     const reader = new FileReader();
     reader.onload = () => {
-      if (typeof reader.result === 'string') {
-        setPhotoDataUrl(reader.result);
-      }
+      if (typeof reader.result !== 'string') return;
+      const rawDataUrl = reader.result;
+
+      // Optimizar resolución de fotos de cámara móvil para evitar saturar localStorage
+      const img = new window.Image();
+      img.onload = () => {
+        const maxSide = 1280;
+        const { width, height } = img;
+        if (!width || !height || (width <= maxSide && height <= maxSide)) {
+          setPhotoDataUrl(rawDataUrl);
+          return;
+        }
+        const scale = maxSide / Math.max(width, height);
+        const canvas = document.createElement('canvas');
+        canvas.width = Math.round(width * scale);
+        canvas.height = Math.round(height * scale);
+        const ctx = canvas.getContext('2d');
+        if (!ctx) {
+          setPhotoDataUrl(rawDataUrl);
+          return;
+        }
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+        setPhotoDataUrl(canvas.toDataURL('image/jpeg', 0.82));
+      };
+      img.onerror = () => setPhotoDataUrl(rawDataUrl);
+      img.src = rawDataUrl;
     };
     reader.readAsDataURL(file);
   };
@@ -467,8 +495,19 @@ export default function ReportView({ onBack, onSubmitReport, session }) {
                 <span className="text-[#737373] font-normal">(Opcional)</span>
               </span>
 
+              {/* Input oculto para Cámara (abre cámara trasera en celulares) */}
               <input
-                ref={photoInputRef}
+                ref={cameraInputRef}
+                type="file"
+                accept="image/*"
+                capture="environment"
+                onChange={handlePhotoSelect}
+                className="hidden"
+              />
+
+              {/* Input oculto para Galería (abre archivos / fotos del dispositivo) */}
+              <input
+                ref={galleryInputRef}
                 type="file"
                 accept="image/*"
                 onChange={handlePhotoSelect}
@@ -476,28 +515,43 @@ export default function ReportView({ onBack, onSubmitReport, session }) {
               />
 
               {!photoDataUrl ? (
-                <button
-                  type="button"
-                  onClick={() => photoInputRef.current?.click()}
-                  className="w-full rounded-[13px] border border-dashed border-white/15 hover:border-[#ccfff3]/60 bg-[#101012] hover:bg-[#161618] px-3.5 py-2.5 sm:px-4 sm:py-3 flex items-center justify-between gap-3 text-left transition-all cursor-pointer group"
-                >
-                  <div className="flex items-center gap-3 min-w-0">
-                    <div className="w-9 h-9 rounded-[10px] bg-[#eae8ff] text-[#000000] matter-bevel flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
-                      <Camera className="w-4 h-4 text-[#c60000]" strokeWidth={2.2} />
+                <div className="grid grid-cols-2 gap-2.5">
+                  <button
+                    type="button"
+                    onClick={() => cameraInputRef.current?.click()}
+                    className="rounded-[13px] border border-dashed border-white/15 hover:border-[#ffc9c9]/75 bg-[#101012] hover:bg-[#17171a] px-3 py-2.5 sm:px-4 sm:py-3 flex items-center gap-2.5 sm:gap-3 text-left transition-all cursor-pointer group"
+                  >
+                    <div className="w-9 h-9 rounded-[10px] bg-[#ffe5e5] text-[#c60000] matter-bevel flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
+                      <Camera className="w-4 h-4" strokeWidth={2.2} />
                     </div>
                     <div className="min-w-0">
-                      <p className="text-[13px] font-medium text-[#fafafa] truncate">
-                        Adjuntar o tomar fotografía
+                      <p className="text-[13px] font-semibold text-[#fafafa] leading-tight truncate">
+                        Cámara
                       </p>
-                      <p className="text-[11px] text-[#a1a1a1] truncate">
-                        Ayuda a ubicar y resolver el daño más rápido
+                      <p className="text-[11px] text-[#a1a1a1] truncate mt-0.5">
+                        Tomar foto ahora
                       </p>
                     </div>
-                  </div>
-                  <span className="hidden sm:inline-flex rounded-[300px] bg-white/[0.06] border border-white/10 px-2.5 py-0.5 text-[11px] text-[#e5e5e5] shrink-0">
-                    Subir imagen
-                  </span>
-                </button>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => galleryInputRef.current?.click()}
+                    className="rounded-[13px] border border-dashed border-white/15 hover:border-[#eae8ff]/75 bg-[#101012] hover:bg-[#17171a] px-3 py-2.5 sm:px-4 sm:py-3 flex items-center gap-2.5 sm:gap-3 text-left transition-all cursor-pointer group"
+                  >
+                    <div className="w-9 h-9 rounded-[10px] bg-[#eae8ff] text-[#000000] matter-bevel flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
+                      <ImageIcon className="w-4 h-4" strokeWidth={2.2} />
+                    </div>
+                    <div className="min-w-0">
+                      <p className="text-[13px] font-semibold text-[#fafafa] leading-tight truncate">
+                        Galería
+                      </p>
+                      <p className="text-[11px] text-[#a1a1a1] truncate mt-0.5">
+                        Elegir imagen
+                      </p>
+                    </div>
+                  </button>
+                </div>
               ) : (
                 <div className="rounded-[13px] overflow-hidden border border-[#ccfff3]/55 bg-[#101012] p-2.5 sm:p-3 flex items-center justify-between gap-3">
                   <div className="flex items-center gap-3 min-w-0">
